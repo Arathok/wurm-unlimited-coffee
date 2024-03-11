@@ -80,6 +80,35 @@ public class CoffeeItem {
 
     }
 
+    private static void registerCoffeeCup() throws IOException {
+        coffeeBean = new ItemTemplateBuilder("arathok.Coffee.Coffee").name("coffee",
+                        "coffee",  "A delicious liquid making you go hyperfocussed beyond the power of sleep!"
+                )
+                .modelName("model.arathok.coffee")
+                .imageNumber((short) IconConstants.ICON_LIQUID_GRAVY)
+                .itemTypes(new short[]{
+                        //26, 88, 90, 113, 212
+                        //ItemTypes.ITEM_TYPE_BULK,
+
+                        ItemTypes.ITEM_TYPE_LIQUID_DRINKABLE,
+                        Item.ITEM_TYPE_LIQUID,
+                        ItemTypes.ITEM_TYPE_BULK,
+
+                })
+                .decayTime(Long.MAX_VALUE)
+                .dimensions(1, 1, 1)
+                .weightGrams(10)
+                .material(Materials.MATERIAL_WOOD_CHERRY)
+                .behaviourType((short) 1)
+                .primarySkill(SkillList.FARMING).difficulty(50) // no hard lock
+                .build();
+
+        coffeeBeanId = coffeeBean.getTemplateId();
+
+
+
+    }
+
 
 
     public static void register() throws IOException {
