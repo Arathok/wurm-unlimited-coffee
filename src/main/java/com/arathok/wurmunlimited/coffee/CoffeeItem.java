@@ -9,8 +9,10 @@ import java.io.IOException;
 
 public class CoffeeItem {
 
-    private static ItemTemplate coffeeShrub,coffeeBean;
-    private static int coffeeShrubId,coffeeBeanId;
+    public static ItemTemplate coffeeShrub,coffeeBean, coffee;
+    public static int coffeeShrubId;
+    public static int coffeeBeanId;
+    public static int coffeeId;
 
 
     private static void registerCoffeeBean() throws IOException {
@@ -81,7 +83,7 @@ public class CoffeeItem {
     }
 
     private static void registerCoffeeCup() throws IOException {
-        coffeeBean = new ItemTemplateBuilder("arathok.Coffee.Coffee").name("coffee",
+        coffee = new ItemTemplateBuilder("arathok.Coffee.Coffee").name("coffee",
                         "coffee",  "A delicious liquid making you go hyperfocussed beyond the power of sleep!"
                 )
                 .modelName("model.arathok.coffee")
@@ -103,7 +105,7 @@ public class CoffeeItem {
                 .primarySkill(SkillList.FARMING).difficulty(50) // no hard lock
                 .build();
 
-        coffeeBeanId = coffeeBean.getTemplateId();
+        coffeeId = coffee.getTemplateId();
 
 
 
@@ -115,6 +117,7 @@ public class CoffeeItem {
 
         registerCoffeeBean();
         registerCoffeeShrub();
+        registerCoffeeCup();
     }
 
 }
