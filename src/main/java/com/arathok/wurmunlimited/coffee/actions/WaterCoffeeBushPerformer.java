@@ -1,5 +1,6 @@
 package com.arathok.wurmunlimited.coffee.actions;
 
+import com.arathok.wurmunlimited.coffee.ActiveCoffeePlanter;
 import com.arathok.wurmunlimited.coffee.Coffee;
 import com.arathok.wurmunlimited.coffee.CoffeeItem;
 import com.wurmonline.communication.SocketConnection;
@@ -72,8 +73,8 @@ public class WaterCoffeeBushPerformer implements ActionPerformer {
 
 // EFFECT STUFF GOES HERE
         if (counter == 1.0F) {
-            performer.getCommunicator().sendNormalServerMessage("You start harvesting the coffee shrub");
-            SoundPlayer.playSound("sound.work.foragebotanize", performer, 1.6F);
+            performer.getCommunicator().sendNormalServerMessage("You start watering the coffee shrub");
+            SoundPlayer.playSound("sound.liquid.fillcontainer", performer, 1.6F);
             action.setTimeLeft(30);
             performer.getCommunicator().sendActionControl(performer.getWurmId(), action.getActionString(), true, 30);
             return propagate(action,
@@ -85,45 +86,17 @@ public class WaterCoffeeBushPerformer implements ActionPerformer {
 
             if (performer.hasLink()) {
 
-                    try {
-                            long id = source.getWurmId();
-                            byte[] temp = (source.getModelName()+"young.").getBytes("UTF-8");
-                        SocketConnection performerConnection = performer.getCommunicator().getConnection();
-                          ByteBuffer bb =performerConnection.getBuffer();
-                           bb.put((byte)-48);
-                           bb.putLong(id);
-                            bb.put((byte)temp.length);
-                           bb.put(temp);
-                           performerConnection.flush();
-                          }
-                     catch (Exception ex) {
 
-                            Coffee.logger.log(Level.WARNING,"Failed to change model for item: " + performer.getName() + ':' + source.getWurmId() + ", " + ex
-             .getMessage(), ex);
-                         Players.getInstance().getPlayerOrNull(performer.getWurmId()).setLink(false);
-                          }
-                    }
-            source.setData1(0);
-            if (source.getData2()>0) {
-                performer.getCommunicator().sendSafeServerMessage("You Harvest a bunch of coffeeBeans");
-                for (int i = 0; i < source.getData2(); i = +2) // How much watering done
-                {
-                    try {
-                        Item coffeeBean = ItemFactory.createItem(CoffeeItem.coffeeBeanId, (Math.min(100, Server.rand.nextInt((int) performer.getSkills().getSkillOrLearn(SkillList.FARMING).getKnowledge()) + 20)), performer.getName());
-                        performer.getInventory().insertItem(coffeeBean);
-                    } catch (FailedException e) {
-                        throw new RuntimeException(e);
-                    } catch (NoSuchTemplateException e) {
-                        Coffee.logger.log(Level.WARNING, "no such id! " + e.getMessage(), e);
-                        throw new RuntimeException(e);
-                    }
+                long nextTendAt=System.currentTimeMillis()+86400000L;
 
-                }
-            }
-            else
-            {
-                performer.getCommunicator().sendSafeServerMessage("The Coffee Shrub looks very dry. It seems it did not have enough water to produce any beans.");
-            }
+
+                source.setData2(source.getData2()+1); // how many times watered +1
+                source.setExtra(nextTendAt);          // add next time
+
+                PlantCoffeeBushPerformer.activeCoffeeShrubs.put(source.getWurmId(),nextTendAt);
+                performer.getCommunicator().sendNormalServerMessage("The plant seems to be happy.");
+             }
+
 
             return propagate(action,
                     ActionPropagation.FINISH_ACTION,

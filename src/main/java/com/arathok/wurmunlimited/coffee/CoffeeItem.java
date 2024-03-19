@@ -63,6 +63,8 @@ public class CoffeeItem {
                         ItemTypes.ITEM_TYPE_TURNABLE,
                         ItemTypes.ITEM_TYPE_TILE_ALIGNED,
                         ItemTypes.ITEM_TYPE_DESTROYABLE,
+                        ItemTypes.ITEM_TYPE_HASDATA,
+                        ItemTypes.ITEM_TYPE_HAS_EXTRA_DATA,
 
                 })
                 .decayTime(Long.MAX_VALUE)

@@ -99,13 +99,16 @@ public class HarvestCoffeeBushPerformer implements ActionPerformer {
                     source.setData1(0);
                     source.setData2(0);
                     source.setAuxData((byte) 0);
+
+
+
                     return propagate(action,
                             ActionPropagation.FINISH_ACTION,
                             ActionPropagation.NO_SERVER_PROPAGATION,
                             ActionPropagation.NO_ACTION_PERFORMER_PROPAGATION);
 
                 }
-                source.setData1(0);
+
                 if (source.getData2() > 0) {
                     performer.getCommunicator().sendSafeServerMessage("You Harvest a bunch of coffeeBeans!");
                     for (int i = 0; i < source.getData2(); i = +2) // How much watering done
@@ -124,7 +127,12 @@ public class HarvestCoffeeBushPerformer implements ActionPerformer {
                 } else {
                     performer.getCommunicator().sendSafeServerMessage("The Coffee Shrub looks very dry. It seems it did not have enough water to produce any beans.");
                 }
-                source.setAuxData((byte) 0);
+                source.setData1(0);  // no age
+                source.setData2(0);  // no water
+                source.setExtra(0);  // no time to harvest
+                source.setAuxData((byte) 0); // no bean
+                PlantCoffeeBushPerformer.activeCoffeeShrubs.remove(source.getWurmId()); // remove from list to check
+
 
                 return propagate(action,
                         ActionPropagation.FINISH_ACTION,
@@ -140,6 +148,9 @@ public class HarvestCoffeeBushPerformer implements ActionPerformer {
                 ActionPropagation.NO_ACTION_PERFORMER_PROPAGATION);
 
     }
+
+
+
 }
 
 

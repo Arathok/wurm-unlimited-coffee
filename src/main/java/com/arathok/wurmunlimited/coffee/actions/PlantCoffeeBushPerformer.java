@@ -27,7 +27,7 @@ public class PlantCoffeeBushPerformer implements ActionPerformer {
 
 
     public final ActionEntry actionEntry;
-    public static HashMap<Long,Integer> activeCoffeeShrubs = new HashMap<>();
+    public static HashMap<Long, Long> activeCoffeeShrubs = new HashMap<>();
 
     public PlantCoffeeBushPerformer() {
 
@@ -47,7 +47,6 @@ public class PlantCoffeeBushPerformer implements ActionPerformer {
     public short getActionId() {
         return actionEntry.getNumber();
     }
-
 
 
     public static boolean canUse(Creature performer, Item source, Item target) {
@@ -86,15 +85,14 @@ public class PlantCoffeeBushPerformer implements ActionPerformer {
         if (action.currentSecond() >= 3) {
 
             if (performer.hasLink()) {
-
-                    target.setData1(1); // Set Age to 1
-                    target.setData2(0); // number of times watered
-                    target.setAuxData((byte)1); // has sprout
-                    activeCoffeeShrubs.put(target.getWurmId(),0);
-                    addToDB(target);
-                    SoundPlayer.playSound("sound.forest.branchsnap",performer,1.6F);
-                    }
-
+                long nextTendTime = System.currentTimeMillis()+86400000L;
+                target.setData1(1); // Set Age to 1
+                target.setData2(0); // number of times watered
+                target.setAuxData((byte) 1); // has sprout
+                target.setExtra(nextTendTime);
+                activeCoffeeShrubs.put(target.getWurmId(), nextTendTime);
+                SoundPlayer.playSound("sound.forest.branchsnap", performer, 1.6F);
+            }
 
 
             return propagate(action,
