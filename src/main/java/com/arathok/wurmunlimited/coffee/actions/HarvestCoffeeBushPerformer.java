@@ -82,24 +82,26 @@ public class HarvestCoffeeBushPerformer implements ActionPerformer {
         if (counter == 1.0F) {
 
             performer.getCommunicator().sendNormalServerMessage("You start harvesting the coffee shrub");
+            performer.playAnimation("create", false,source.getWurmId());
             SoundPlayer.playSound("sound.work.foragebotanize", performer, 1.6F);
-            action.setTimeLeft(30);
+            action.setTimeLeft(300);
             performer.getCommunicator().sendActionControl(performer.getWurmId(), action.getActionString(), true, 30);
             return propagate(action,
                     ActionPropagation.CONTINUE_ACTION,
                     ActionPropagation.NO_SERVER_PROPAGATION,
                     ActionPropagation.NO_ACTION_PERFORMER_PROPAGATION);
         }
-        if (action.currentSecond() >= 3) {
+        if (action.currentSecond() >= 3&&action.currentSecond()<6) {
 
             if (performer.hasLink()) {
 
-                if (source.getData1() != 8) {
+                if (source.getData1() < 8) {
                     performer.getCommunicator().sendNormalServerMessage("You noticed you harvested the plant way too early and destroy the Plant");
-                    source.setData1(0);
-                    source.setData2(0);
-                    source.setAuxData((byte) 0);
-
+                    source.setData1(0);  // no age
+                    source.setData2(0);  // no water
+                    source.setExtra(0);  // no time to harvest
+                    source.setAuxData((byte) 0); // no bean
+                    PlantCoffeeBushPerformer.activeCoffeeShrubs.remove(source.getWurmId()); // remove from list to check
 
 
                     return propagate(action,
@@ -109,31 +111,63 @@ public class HarvestCoffeeBushPerformer implements ActionPerformer {
 
                 }
 
-                if (source.getData2() > 0) {
-                    performer.getCommunicator().sendSafeServerMessage("You Harvest a bunch of coffeeBeans!");
-                    for (int i = 0; i < source.getData2(); i = +2) // How much watering done
+                if (source.getData1() >8)
+                {
+                    source.setData1(0);  // no age
+                    source.setData2(0);  // no water
+                    source.setExtra(0);  // no time to harvest
+                    source.setAuxData((byte) 0); // no bean
+                    PlantCoffeeBushPerformer.activeCoffeeShrubs.remove(source.getWurmId()); // remove from list to check
+                    performer.getCommunicator().sendNormalServerMessage("You noticed you harvested the plant too late. You are not able to get anything from its wilted stalks.");
+                    return propagate(action,
+                            ActionPropagation.FINISH_ACTION,
+                            ActionPropagation.NO_SERVER_PROPAGATION,
+                            ActionPropagation.NO_ACTION_PERFORMER_PROPAGATION);
+                }
+                if (source.getData2()==0)
+                {
+                    source.setData1(0);  // no age
+                    source.setData2(0);  // no water
+                    source.setExtra(0);  // no time to harvest
+                    source.setAuxData((byte) 0); // no bean
+                    PlantCoffeeBushPerformer.activeCoffeeShrubs.remove(source.getWurmId()); // remove from list to check
+                    performer.getCommunicator().sendSafeServerMessage("The Coffee Shrub looks very dry. It seems it did not have enough water to produce any beans.");
+                    return propagate(action,
+                            ActionPropagation.FINISH_ACTION,
+                            ActionPropagation.NO_SERVER_PROPAGATION,
+                            ActionPropagation.NO_ACTION_PERFORMER_PROPAGATION);
+
+                }
+
+
+
+
+                if (action.currentSecond()>=6&& action.currentSecond()<=12 )
+                {
+                    if (source.getData2()>0)
                     {
+                        performer.playAnimation("create", false,source.getWurmId());
+                        SoundPlayer.playSound("sound.work.foragebotanize", performer, 1.6F);
+                        Item coffeeBean = null;
                         try {
-                            Item coffeeBean = ItemFactory.createItem(CoffeeItem.coffeeBeanId, (Math.min(100, Server.rand.nextInt((int) performer.getSkills().getSkillOrLearn(SkillList.FARMING).getKnowledge()) + 20)), performer.getName());
-                            performer.getInventory().insertItem(coffeeBean);
+                            coffeeBean = ItemFactory.createItem(CoffeeItem.coffeeBeanId, (Math.min(100, Server.rand.nextInt((int) performer.getSkills().getSkillOrLearn(SkillList.FARMING).getKnowledge()) + 20)), performer.getName());
                         } catch (FailedException e) {
                             throw new RuntimeException(e);
                         } catch (NoSuchTemplateException e) {
-                            Coffee.logger.log(Level.WARNING, "no such id! " + e.getMessage(), e);
                             throw new RuntimeException(e);
                         }
-
+                        performer.getInventory().insertItem(coffeeBean);
+                        performer.getCommunicator().sendSafeServerMessage("You manage to find another bean!");
+                        int newData2 = Math.max(source.getData2()-2,0);
+                        // TODO let it go again!
                     }
-                } else {
-                    performer.getCommunicator().sendSafeServerMessage("The Coffee Shrub looks very dry. It seems it did not have enough water to produce any beans.");
                 }
-                source.setData1(0);  // no age
+
+                    source.setData1(0);  // no age
                 source.setData2(0);  // no water
                 source.setExtra(0);  // no time to harvest
                 source.setAuxData((byte) 0); // no bean
                 PlantCoffeeBushPerformer.activeCoffeeShrubs.remove(source.getWurmId()); // remove from list to check
-
-
                 return propagate(action,
                         ActionPropagation.FINISH_ACTION,
                         ActionPropagation.NO_SERVER_PROPAGATION,

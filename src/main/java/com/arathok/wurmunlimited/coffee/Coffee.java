@@ -3,7 +3,10 @@ package com.arathok.wurmunlimited.coffee;
 
 import com.arathok.wurmunlimited.coffee.actions.CoffeeBehavior;
 import com.arathok.wurmunlimited.coffee.actions.CoffeeTargetedBehavior;
+import com.arathok.wurmunlimited.coffee.actions.PlantCoffeeBushPerformer;
+import com.wurmonline.server.Items;
 import com.wurmonline.server.creatures.Communicator;
+import com.wurmonline.server.items.Item;
 import com.wurmonline.server.players.Player;
 import com.wurmonline.server.spells.Hyperfocus;
 import com.wurmonline.server.spells.Spells;
@@ -14,6 +17,8 @@ import org.gotti.wurmunlimited.modsupport.actions.ModActions;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,9 +28,7 @@ public class Coffee implements WurmServerMod, Initable, PreInitable, Configurabl
     public static Connection dbconn;
     public static boolean finishedReadingDB = false;
     public static boolean finishedDbReadingEnchantments =false;
-
-
-
+    private long coffeePoller=0L;
 
 
     @Override
@@ -86,6 +89,24 @@ public class Coffee implements WurmServerMod, Initable, PreInitable, Configurabl
     @Override
     public void onServerPoll() {
 
+        if (coffeePoller < System.currentTimeMillis())
+        {
+            for (Map.Entry<Long, Long> oneItem : PlantCoffeeBushPerformer.activeCoffeeShrubs.entrySet())
+            {
+                if(oneItem.getValue()<System.currentTimeMillis())
+                {
+                    Optional<Item> maybeItem = Items.getItemOptional(oneItem.getKey());
+                    if (maybeItem.isPresent())
+                    {
+                        Item realPlanter = maybeItem.get();
+                        if (realPlanter.getData1()>0)
+                        realPlanter.setData1(realPlanter.getData1()+1);
+
+                    }
+                }
+            }
+            coffeePoller = System.currentTimeMillis()+3600000L;
+        }
 
 
     }

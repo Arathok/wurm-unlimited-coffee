@@ -3,6 +3,7 @@ package com.arathok.wurmunlimited.coffee.actions;
 import com.arathok.wurmunlimited.coffee.ActiveCoffeePlanter;
 import com.arathok.wurmunlimited.coffee.CoffeeItem;
 import com.wurmonline.server.behaviours.ActionEntry;
+import com.wurmonline.server.behaviours.PlanterBehaviour;
 import com.wurmonline.server.creatures.Creature;
 import com.wurmonline.server.items.Item;
 import org.gotti.wurmunlimited.modsupport.actions.BehaviourProvider;
@@ -44,8 +45,8 @@ public class CoffeeTargetedBehavior implements BehaviourProvider {
             return new ArrayList<>(plant);
         }
         if (!target.isTraded() && target.getLastOwnerId() == performer.getWurmId() && target.getTemplateId() == CoffeeItem.coffeeShrubId && target.getData1() <= 7 && target.getAuxData() == 1) {
-            ActiveCoffeePlanter planter = PlantCoffeeBushPerformer.activeCoffeeShrubs.get(target.getWurmId());
-            if (System.currentTimeMillis() >= planter.nextTendAt)
+
+            if (PlantCoffeeBushPerformer.activeCoffeeShrubs.get(target.getWurmId())<= System.currentTimeMillis())
                 return new ArrayList<>(water);
         }
         return null;
