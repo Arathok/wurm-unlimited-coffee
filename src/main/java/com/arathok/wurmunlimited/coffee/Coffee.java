@@ -1,12 +1,15 @@
 package com.arathok.wurmunlimited.coffee;
 
 
+import com.arathok.wurmunlimited.coffee.actions.CoffeeBehavior;
+import com.arathok.wurmunlimited.coffee.actions.CoffeeTargetedBehavior;
 import com.wurmonline.server.creatures.Communicator;
 import com.wurmonline.server.players.Player;
 import com.wurmonline.server.spells.Hyperfocus;
 import com.wurmonline.server.spells.Spells;
 import org.gotti.wurmunlimited.modloader.ReflectionUtil;
 import org.gotti.wurmunlimited.modloader.interfaces.*;
+import org.gotti.wurmunlimited.modsupport.actions.ModActions;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -69,6 +72,8 @@ public class Coffee implements WurmServerMod, Initable, PreInitable, Configurabl
             throw new RuntimeException(e);
         }
         logger.log(Level.INFO, "Done Registering Spells");
+        ModActions.registerBehaviourProvider(new CoffeeBehavior());
+        ModActions.registerBehaviourProvider(new CoffeeTargetedBehavior());
     }
 
 
