@@ -36,7 +36,7 @@ public class Coffee implements WurmServerMod, Initable, PreInitable, Configurabl
 
 
     logger.log(Level.INFO,"Hooking Cave Crystal Behaviour");
-    CaveCrystalHook.insert();
+    CoffeeHook.insert();
 
 
     }

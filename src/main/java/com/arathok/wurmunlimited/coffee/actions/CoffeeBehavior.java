@@ -15,13 +15,16 @@ public class CoffeeBehavior implements BehaviourProvider {
 
 
     private final List<ActionEntry> takeaSip;
+    private final List<ActionEntry> harvest;
     private final CoffePerformer acoffeePerformer;
+    private final HarvestCoffeeBushPerformer harvestPerformer;
 
 
     public CoffeeBehavior() {
         this.acoffeePerformer = new CoffePerformer();
-
+        this.harvestPerformer = new HarvestCoffeeBushPerformer();
         this.takeaSip = Collections.singletonList(acoffeePerformer.actionEntry);
+        this.harvest = Collections.singletonList(harvestPerformer.actionEntry);
 
         ModActions.registerActionPerformer(acoffeePerformer);
 
@@ -37,6 +40,10 @@ public class CoffeeBehavior implements BehaviourProvider {
         if (!target.isTraded()&&target.getOwnerId()==performer.getWurmId()&&target.getTemplateId()== CoffeeItem.coffeeId) {
 
                 return new ArrayList<>(takeaSip);
+        }
+        if (!target.isTraded()&&target.getOwnerId()==performer.getWurmId()&&target.getTemplateId()== CoffeeItem.coffeeShrubId&&target.getData1()==7) {
+
+            return new ArrayList<>(harvest);
         }
        return null;
     }
