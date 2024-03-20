@@ -1,27 +1,15 @@
 package com.arathok.wurmunlimited.coffee.actions;
 
-import com.arathok.wurmunlimited.coffee.ActiveCoffeePlanter;
-import com.arathok.wurmunlimited.coffee.Coffee;
 import com.arathok.wurmunlimited.coffee.CoffeeItem;
-import com.wurmonline.communication.SocketConnection;
-import com.wurmonline.server.FailedException;
-import com.wurmonline.server.Players;
-import com.wurmonline.server.Server;
 import com.wurmonline.server.behaviours.Action;
 import com.wurmonline.server.behaviours.ActionEntry;
 import com.wurmonline.server.creatures.Creature;
 import com.wurmonline.server.items.Item;
-import com.wurmonline.server.items.ItemFactory;
-import com.wurmonline.server.items.NoSuchTemplateException;
-import com.wurmonline.server.skills.SkillList;
 import com.wurmonline.server.sounds.SoundPlayer;
 import org.gotti.wurmunlimited.modsupport.actions.ActionEntryBuilder;
 import org.gotti.wurmunlimited.modsupport.actions.ActionPerformer;
 import org.gotti.wurmunlimited.modsupport.actions.ActionPropagation;
 import org.gotti.wurmunlimited.modsupport.actions.ModActions;
-
-import java.nio.ByteBuffer;
-import java.util.logging.Level;
 
 public class WaterCoffeeBushPerformer implements ActionPerformer {
 

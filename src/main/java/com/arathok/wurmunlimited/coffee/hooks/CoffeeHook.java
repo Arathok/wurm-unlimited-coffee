@@ -1,5 +1,6 @@
-package com.arathok.wurmunlimited.coffee;
+package com.arathok.wurmunlimited.coffee.hooks;
 
+import com.arathok.wurmunlimited.coffee.Coffee;
 import com.wurmonline.server.Players;
 import com.wurmonline.server.behaviours.Methods;
 import com.wurmonline.server.creatures.Creature;
@@ -27,7 +28,7 @@ public class CoffeeHook {
                 Coffee.logger.log(Level.INFO, "new CoffeeSKillgain");
                 CtClass ctSkill = classPool.get("com.wurmonline.server.skills.Skill");
                 CtMethod ctAlterSkill = ctSkill.getMethod("alterSkill","DZFZD()V");
-                ctAlterSkill.insertBefore("advanceMultiplicator*=com.arathok.wurmunlimited.coffee.CoffeeHook.checkForCoffee(this.parentId);");
+                ctAlterSkill.insertBefore("advanceMultiplicator*=com.arathok.wurmunlimited.coffee.hooks.CoffeeHook.checkForCoffee(this.parentId);");
 
 
             } catch (NotFoundException e) {
