@@ -4,6 +4,7 @@ package com.arathok.wurmunlimited.coffee;
 import com.arathok.wurmunlimited.coffee.actions.CoffeeBehavior;
 import com.arathok.wurmunlimited.coffee.actions.CoffeeTargetedBehavior;
 import com.arathok.wurmunlimited.coffee.actions.PlantCoffeeBushPerformer;
+import com.arathok.wurmunlimited.coffee.hooks.CoffeeHook;
 import com.wurmonline.server.Items;
 import com.wurmonline.server.creatures.Communicator;
 import com.wurmonline.server.items.Item;

@@ -1,9 +1,7 @@
 package com.arathok.wurmunlimited.coffee.actions;
 
-import com.arathok.wurmunlimited.coffee.ActiveCoffeePlanter;
 import com.arathok.wurmunlimited.coffee.CoffeeItem;
 import com.wurmonline.server.behaviours.ActionEntry;
-import com.wurmonline.server.behaviours.PlanterBehaviour;
 import com.wurmonline.server.creatures.Creature;
 import com.wurmonline.server.items.Item;
 import org.gotti.wurmunlimited.modsupport.actions.BehaviourProvider;
