@@ -5,3 +5,17 @@
 .idea/modules.xml
 .idea/uiDesigner.xml
 .idea/vcs.xml
+.idea/artifacts/Coffee.xml
+out/production/wurm-unlimited-coffee/com/arathok/wurmunlimited/coffee/actions/CoffeeBehavior.class
+out/production/wurm-unlimited-coffee/com/arathok/wurmunlimited/coffee/actions/CoffeeTargetedBehavior.class
+out/production/wurm-unlimited-coffee/com/arathok/wurmunlimited/coffee/actions/CoffePerformer.class
+out/production/wurm-unlimited-coffee/com/arathok/wurmunlimited/coffee/actions/HarvestCoffeeBushPerformer.class
+out/production/wurm-unlimited-coffee/com/arathok/wurmunlimited/coffee/actions/PlantCoffeeBushPerformer.class
+out/production/wurm-unlimited-coffee/com/arathok/wurmunlimited/coffee/actions/WaterCoffeeBushPerformer.class
+out/production/wurm-unlimited-coffee/com/arathok/wurmunlimited/coffee/Coffee.class
+out/production/wurm-unlimited-coffee/com/arathok/wurmunlimited/coffee/CoffeeItem.class
+out/production/wurm-unlimited-coffee/com/arathok/wurmunlimited/coffee/CoffeePlanterModelProvider.class
+out/production/wurm-unlimited-coffee/com/arathok/wurmunlimited/coffee/Config.class
+out/production/wurm-unlimited-coffee/com/arathok/wurmunlimited/coffee/hooks/CoffeeForageHook.class
+out/production/wurm-unlimited-coffee/com/arathok/wurmunlimited/coffee/hooks/CoffeeHook.class
+out/production/wurm-unlimited-coffee/com/wurmonline/server/spells/Hyperfocus.class
