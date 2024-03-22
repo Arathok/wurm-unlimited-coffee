@@ -55,6 +55,7 @@ public class CoffeeForageHook {
                 float quality = Skill.rollGaussian((float) foraging.getKnowledge(),50F,player.getWurmId(),"quality");
                 Item coffBean = ItemFactory.createItem(CoffeeItem.coffeeBeanId,quality,player.getName());
                 player.getInventory().insertItem(coffBean);
+
             }
         }
     }
