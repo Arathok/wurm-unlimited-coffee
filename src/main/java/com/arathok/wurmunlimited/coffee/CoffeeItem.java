@@ -19,7 +19,7 @@ public class CoffeeItem {
 
     private static void registerCoffeeBean() throws IOException {
         coffeeBean = new ItemTemplateBuilder("arathok.Coffee.Coffeebean").name("coffee bean",
-                        "coffee Beans",  "A bean of a coffee shrub. If brewed with water it might turn into a malty source of energy for your body!"
+                        "coffee Beans",  "A bean of a coffee shrub originating from Mt. Arathok. The Monks up there brewed it into a coffee to heighten their senses."
                 )
                 .modelName("model.resource.cocoabean.")
                 .imageNumber((short) IconConstants.ICON_FOOD_COCOA_BEAN)
