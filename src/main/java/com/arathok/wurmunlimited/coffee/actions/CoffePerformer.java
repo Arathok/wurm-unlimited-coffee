@@ -87,7 +87,7 @@ public class CoffePerformer implements ActionPerformer {
             }
             SoundPlayer.playSound("sound.liquid.drink",performer,1.6F);
             action.setTimeLeft(30);
-            performer.getCommunicator().sendActionControl(performer.getWurmId(),action.getActionString(),true,30);
+            performer.sendActionControl(action.getActionString(),true,30);
             return propagate(action,
                     ActionPropagation.CONTINUE_ACTION,
                     ActionPropagation.NO_SERVER_PROPAGATION,

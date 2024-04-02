@@ -2,6 +2,7 @@ package com.arathok.wurmunlimited.coffee.actions;
 
 import com.arathok.wurmunlimited.coffee.Coffee;
 import com.arathok.wurmunlimited.coffee.CoffeeItem;
+import com.arathok.wurmunlimited.coffee.Config;
 import com.wurmonline.communication.SocketConnection;
 import com.wurmonline.server.FailedException;
 import com.wurmonline.server.Features;
@@ -18,6 +19,8 @@ import com.wurmonline.server.sounds.SoundPlayer;
 import com.wurmonline.server.spells.CreatureEnchantment;
 import com.wurmonline.server.spells.Spell;
 import com.wurmonline.server.spells.Spells;
+import com.wurmonline.server.zones.VolaTile;
+import com.wurmonline.server.zones.Zones;
 import com.wurmonline.shared.constants.ItemMaterials;
 import org.gotti.wurmunlimited.modsupport.actions.ActionEntryBuilder;
 import org.gotti.wurmunlimited.modsupport.actions.ActionPerformer;
@@ -32,6 +35,11 @@ public class HarvestCoffeeBushPerformer implements ActionPerformer {
 
 
     public final ActionEntry actionEntry;
+
+    boolean firstTry = true;
+    boolean secondTry = true;
+    boolean thirdTry = true;
+    boolean fourthTry = true;
 
     public HarvestCoffeeBushPerformer() {
 
@@ -58,7 +66,7 @@ public class HarvestCoffeeBushPerformer implements ActionPerformer {
 
     public static boolean canUse(Creature performer, Item source) {
 
-        return performer.isPlayer() && source.getOwnerId() == performer.getWurmId() && !source.isTraded() && source.getTemplateId() == CoffeeItem.coffeeShrubId;
+        return performer.isPlayer() && source.getLastOwnerId() == performer.getWurmId() && !source.isTraded() && source.getTemplateId() == CoffeeItem.coffeeShrubId;
     }
 
 
@@ -78,111 +86,204 @@ public class HarvestCoffeeBushPerformer implements ActionPerformer {
         }
 
 
+
 // EFFECT STUFF GOES HERE
         if (counter == 1.0F) {
-
+            firstTry=true;
+            secondTry=true;
+            thirdTry=true;
+            fourthTry=true;
             performer.getCommunicator().sendNormalServerMessage("You start harvesting the coffee shrub");
-            performer.playAnimation("create", false,source.getWurmId());
+            performer.playAnimation("create", false, source.getWurmId());
             SoundPlayer.playSound("sound.work.foragebotanize", performer, 1.6F);
             action.setTimeLeft(300);
-            performer.getCommunicator().sendActionControl(performer.getWurmId(), action.getActionString(), true, 30);
+            performer.sendActionControl( action.getActionString(), true, 300);
             return propagate(action,
                     ActionPropagation.CONTINUE_ACTION,
                     ActionPropagation.NO_SERVER_PROPAGATION,
                     ActionPropagation.NO_ACTION_PERFORMER_PROPAGATION);
         }
-        if (action.currentSecond() >= 3&&action.currentSecond()<6) {
+        else {
+            if (action.currentSecond() >= 3 && action.currentSecond() < 6) {
 
-            if (performer.hasLink()) {
+                if (performer.hasLink()) {
 
-                if (source.getData1() < 8) {
-                    performer.getCommunicator().sendNormalServerMessage("You noticed you harvested the plant way too early and destroy the Plant");
-                    source.setData1(0);  // no age
-                    source.setData2(0);  // no water
-                    source.setExtra(0);  // no time to harvest
-                    source.setAuxData((byte) 0); // no bean
-                    PlantCoffeeBushPerformer.activeCoffeeShrubs.remove(source.getWurmId()); // remove from list to check
-
-
-                    return propagate(action,
-                            ActionPropagation.FINISH_ACTION,
-                            ActionPropagation.NO_SERVER_PROPAGATION,
-                            ActionPropagation.NO_ACTION_PERFORMER_PROPAGATION);
-
-                }
-
-                if (source.getData1() >8)
-                {
-                    source.setData1(0);  // no age
-                    source.setData2(0);  // no water
-                    source.setExtra(0);  // no time to harvest
-                    source.setAuxData((byte) 0); // no bean
-                    PlantCoffeeBushPerformer.activeCoffeeShrubs.remove(source.getWurmId()); // remove from list to check
-                    performer.getCommunicator().sendNormalServerMessage("You noticed you harvested the plant too late. You are not able to get anything from its wilted stalks.");
-                    return propagate(action,
-                            ActionPropagation.FINISH_ACTION,
-                            ActionPropagation.NO_SERVER_PROPAGATION,
-                            ActionPropagation.NO_ACTION_PERFORMER_PROPAGATION);
-                }
-                if (source.getData2()==0)
-                {
-                    source.setData1(0);  // no age
-                    source.setData2(0);  // no water
-                    source.setExtra(0);  // no time to harvest
-                    source.setAuxData((byte) 0); // no bean
-                    PlantCoffeeBushPerformer.activeCoffeeShrubs.remove(source.getWurmId()); // remove from list to check
-                    performer.getCommunicator().sendSafeServerMessage("The Coffee Shrub looks very dry. It seems it did not have enough water to produce any beans.");
-                    return propagate(action,
-                            ActionPropagation.FINISH_ACTION,
-                            ActionPropagation.NO_SERVER_PROPAGATION,
-                            ActionPropagation.NO_ACTION_PERFORMER_PROPAGATION);
-
-                }
+                    if (source.getData1() < 8) {
+                        performer.getCommunicator().sendNormalServerMessage("You noticed you harvested the plant way too early and destroy the Plant");
+                        source.setData1(0);  // no age
+                        source.setData2(0);  // no water
+                        source.setExtra(0);  // no time to harvest
+                        source.setData1(0); // not watered
+                        source.setAuxData((byte) 0); // no bean
+                        PlantCoffeeBushPerformer.activeCoffeeShrubs.remove(source.getWurmId()); // remove from list to check
 
 
+                        return propagate(action,
+                                ActionPropagation.FINISH_ACTION,
+                                ActionPropagation.NO_SERVER_PROPAGATION,
+                                ActionPropagation.NO_ACTION_PERFORMER_PROPAGATION);
 
+                    }
 
-                if (action.currentSecond()>=6&& action.currentSecond()<=12 )
-                {
-                    if (source.getData2()>0)
-                    {
-                        performer.playAnimation("create", false,source.getWurmId());
-                        SoundPlayer.playSound("sound.work.foragebotanize", performer, 1.6F);
-                        Item coffeeBean = null;
-                        try {
-                            coffeeBean = ItemFactory.createItem(CoffeeItem.coffeeBeanId, (Math.min(100, Server.rand.nextInt((int) performer.getSkills().getSkillOrLearn(SkillList.FARMING).getKnowledge()) + 20)), performer.getName());
-                        } catch (FailedException e) {
-                            throw new RuntimeException(e);
-                        } catch (NoSuchTemplateException e) {
-                            throw new RuntimeException(e);
-                        }
-                        performer.getInventory().insertItem(coffeeBean);
-                        performer.getCommunicator().sendSafeServerMessage("You manage to find another bean!");
-                        int newData2 = Math.max(source.getData2()-2,0);
-                        // TODO let it go again!
+                    if (source.getData1() > 8) {
+                        source.setData1(0);  // no age
+                        source.setData2(0);  // no water
+                        source.setExtra(0);  // no time to harvest
+                        source.setData1(0); // not watered
+                        source.setAuxData((byte) 0); // no bean
+                        PlantCoffeeBushPerformer.activeCoffeeShrubs.remove(source.getWurmId()); // remove from list to check
+                        performer.getCommunicator().sendNormalServerMessage("You noticed you harvested the plant too late. You are not able to get anything from its wilted stalks.");
+                        return propagate(action,
+                                ActionPropagation.FINISH_ACTION,
+                                ActionPropagation.NO_SERVER_PROPAGATION,
+                                ActionPropagation.NO_ACTION_PERFORMER_PROPAGATION);
                     }
                 }
-
-                    source.setData1(0);  // no age
-                source.setData2(0);  // no water
-                source.setExtra(0);  // no time to harvest
-                source.setAuxData((byte) 0); // no bean
-                PlantCoffeeBushPerformer.activeCoffeeShrubs.remove(source.getWurmId()); // remove from list to check
-                return propagate(action,
-                        ActionPropagation.FINISH_ACTION,
-                        ActionPropagation.NO_SERVER_PROPAGATION,
-                        ActionPropagation.NO_ACTION_PERFORMER_PROPAGATION);
             }
 
 
-        }
+                    if (action.currentSecond() >= 6 && action.currentSecond() < 12) {
+                        if (source.getData2() > 0&&firstTry) {
+                            performer.playAnimation("create", false, source.getWurmId());
+                            SoundPlayer.playSound("sound.work.foragebotanize", performer, 1.6F);
+                            Item coffeeBean = null;
+                            int chance = Server.rand.nextInt((int) performer.getSkills().getSkillOrLearn(SkillList.FARMING).getKnowledge()) + 20;
+                            if (chance > 40) {
+                                try {
+                                    coffeeBean = ItemFactory.createItem(CoffeeItem.coffeeBeanId, (Math.min(100, Server.rand.nextInt((int) performer.getSkills().getSkillOrLearn(SkillList.FARMING).getKnowledge()) + 20)), performer.getName());
+                                    performer.getInventory().insertItem(coffeeBean);
+                                    performer.getCommunicator().sendSafeServerMessage("You manage to find a good coffee bean!");
+                                } catch (FailedException | NoSuchTemplateException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            } else {
+                                performer.getCommunicator().sendNormalServerMessage("You manage to pluck a bean but you find it to be not suited for further processing and throw it away.");
+                            }
+                            int newData2 = Math.max(source.getData2() - Server.rand.nextInt(4) + 1, 0);
+                            source.setData2(newData2);
+
+                            firstTry=false;
+
+                        }
+                    }
+
+                    if (action.currentSecond() >= 12 && action.currentSecond() < 18) {
+                        if (source.getData2() > 0 &&secondTry) {
+                            performer.playAnimation("create", false, source.getWurmId());
+                            SoundPlayer.playSound("sound.work.foragebotanize", performer, 1.6F);
+                            Item coffeeBean = null;
+                            int chance = Server.rand.nextInt((int) performer.getSkills().getSkillOrLearn(SkillList.FARMING).getKnowledge()) + 20;
+                            if (chance > 40) {
+                                try {
+                                    coffeeBean = ItemFactory.createItem(CoffeeItem.coffeeBeanId, (Math.min(100, Server.rand.nextInt((int) performer.getSkills().getSkillOrLearn(SkillList.FARMING).getKnowledge()) + 20)), performer.getName());
+                                    performer.getInventory().insertItem(coffeeBean);
+                                    performer.getCommunicator().sendSafeServerMessage("You manage to find a good coffee bean!");
+                                } catch (FailedException | NoSuchTemplateException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            } else {
+                                performer.getCommunicator().sendNormalServerMessage("You manage to pluck a bean but you find it to be not suited for further processing and throw it away.");
+                            }
+                            int newData2 = Math.max(source.getData2() - Server.rand.nextInt(4) + 1, 0);
+                            source.setData2(newData2);
+                            secondTry=false;
+
+
+                        }
+
+                    }
+
+                    if (action.currentSecond() >= 18 && action.currentSecond() < 24) {
+                        if (source.getData2() > 0 && thirdTry) {
+                            performer.playAnimation("create", false, source.getWurmId());
+                            SoundPlayer.playSound("sound.work.foragebotanize", performer, 1.6F);
+                            Item coffeeBean = null;
+                            int chance = Server.rand.nextInt((int) performer.getSkills().getSkillOrLearn(SkillList.FARMING).getKnowledge()+20) ;
+                            if (chance > 35) {
+                                try {
+                                    coffeeBean = ItemFactory.createItem(CoffeeItem.coffeeBeanId, (Math.min(100, Server.rand.nextInt((int) performer.getSkills().getSkillOrLearn(SkillList.FARMING).getKnowledge()) + 20)), performer.getName());
+                                    performer.getInventory().insertItem(coffeeBean);
+                                    performer.getCommunicator().sendSafeServerMessage("You manage to find a good coffee bean!");
+                                } catch (FailedException | NoSuchTemplateException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            } else {
+                                performer.getCommunicator().sendNormalServerMessage("You manage to pluck a bean but you find it to be not suited for further processing and throw it away.");
+                            }
+                            int newData2 = Math.max(source.getData2() - Server.rand.nextInt(4) + 1, 0);
+                            source.setData2(newData2);
+                            thirdTry=false;
+
+
+                        } else {
+                            performer.getCommunicator().sendNormalServerMessage("You dont see any more beans.");
+                            source.setData1(0);  // no age
+                            source.setData2(0);  // no water
+                            source.setExtra(0);  // no time to harvest
+                            source.setData1(0); // not watered
+                            source.setAuxData((byte) 0); // no bean
+                            source.setName(source.getTemplate().getName());
+                            PlantCoffeeBushPerformer.activeCoffeeShrubs.remove(source.getWurmId()); // remove from list to check
+                            VolaTile vt = Zones.getOrCreateTile(source.getTilePos(), source.isOnSurface());
+                            vt.makeInvisible(source);
+                            vt.makeVisible(source);
+                            return propagate(action,
+                                    ActionPropagation.FINISH_ACTION,
+                                    ActionPropagation.NO_SERVER_PROPAGATION,
+                                    ActionPropagation.NO_ACTION_PERFORMER_PROPAGATION);
+                        }
+                    }
+
+                    if (action.currentSecond() >= 24 && action.currentSecond() < 30) {
+                        if (source.getData2() > 0 && fourthTry) {
+                            performer.playAnimation("create", false, source.getWurmId());
+                            SoundPlayer.playSound("sound.work.foragebotanize", performer, 1.6F);
+                            Item coffeeBean = null;
+                            int chance = Server.rand.nextInt((int) performer.getSkills().getSkillOrLearn(SkillList.FARMING).getKnowledge()) + 20;
+                            if (chance > 40) {
+                                try {
+                                    coffeeBean = ItemFactory.createItem(CoffeeItem.coffeeBeanId, (Math.min(100, Server.rand.nextInt((int) performer.getSkills().getSkillOrLearn(SkillList.FARMING).getKnowledge()) + 20)), performer.getName());
+                                    performer.getInventory().insertItem(coffeeBean);
+                                    performer.getCommunicator().sendSafeServerMessage("You manage to find a good coffee bean!");
+                                } catch (FailedException | NoSuchTemplateException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            } else {
+                                performer.getCommunicator().sendNormalServerMessage("You manage to pluck a bean but you find it to be not suited for further processing and throw it away.");
+                            }
+                            performer.getCommunicator().sendNormalServerMessage("You dont see any more beans.");
+                            source.setData1(0);  // no age
+                            source.setData2(0);  // no water
+                            source.setExtra(0);  // no time to harvest
+                            source.setData1(0); // not watered
+                            source.setAuxData((byte) 0); // no bean
+                            source.setName(source.getTemplate().getName());
+                            PlantCoffeeBushPerformer.activeCoffeeShrubs.remove(source.getWurmId()); // remove from list to check
+                            VolaTile vt = Zones.getOrCreateTile(source.getTilePos(), source.isOnSurface());
+                            vt.makeInvisible(source);
+                            vt.makeVisible(source);
+                            fourthTry=false;
+                            return propagate(action,
+                                    ActionPropagation.FINISH_ACTION,
+                                    ActionPropagation.NO_SERVER_PROPAGATION,
+                                    ActionPropagation.NO_ACTION_PERFORMER_PROPAGATION);
+
+
+
+
+
+                        }
+                    }
+
+                }
+
+
         return propagate(action,
                 ActionPropagation.CONTINUE_ACTION,
                 ActionPropagation.NO_SERVER_PROPAGATION,
                 ActionPropagation.NO_ACTION_PERFORMER_PROPAGATION);
 
     }
-
 
 
 }

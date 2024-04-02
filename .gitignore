@@ -19,3 +19,86 @@ out/production/wurm-unlimited-coffee/com/arathok/wurmunlimited/coffee/Config.cla
 out/production/wurm-unlimited-coffee/com/arathok/wurmunlimited/coffee/hooks/CoffeeForageHook.class
 out/production/wurm-unlimited-coffee/com/arathok/wurmunlimited/coffee/hooks/CoffeeHook.class
 out/production/wurm-unlimited-coffee/com/wurmonline/server/spells/Hyperfocus.class
+Models/albedometal-v2.png
+Models/albedometal-v3.png
+Models/b_ref.dds
+Models/berry.dds
+Models/Coffee.blend
+Models/Coffee.blend1
+Models/Coffee.mtl
+Models/Coffee.obj
+Models/Coffee.wom
+Models/coffeeplant.mtl
+Models/coffeeplant.obj
+Models/coffeePowder.mtl
+Models/coffeePowder.obj
+Models/coffeePowder.wom
+Models/CoffeeWilted.blend
+Models/CoffeeWilted.blend1
+Models/coffeplantwilted.mtl
+Models/coffeplantwilted.obj
+Models/coffeplantwilted.wom
+Models/coffeplantwithoutberries.mtl
+Models/coffeplantwithoutberries.obj
+Models/Data Files/Meshes/f/b_ref.dds
+Models/Data Files/Meshes/f/berry.dds
+Models/Data Files/Meshes/f/flora_comberry_01.nif
+Models/Data Files/Meshes/f/Tx_comberry_01.dds
+Models/Data Files/Meshes/f/Tx_comberry_02.dds
+Models/Data Files/Meshes/f/Tx_comberry_branch.dds
+Models/Data Files/Meshes/f/Tx_Comberry_leaf.dds
+Models/Data Files/Meshes/n/ingred_comberry_01.nif
+Models/Data Files/Textures/b_ref.dds
+Models/Data Files/Textures/berry.dds
+Models/Data Files/Textures/Tx_comberry_01.dds
+Models/Data Files/Textures/Tx_comberry_02.dds
+Models/Data Files/Textures/Tx_comberry_branch.dds
+Models/Data Files/Textures/Tx_Comberry_leaf.dds
+Models/Frankenstein.blend
+Models/Frankenstein.blend1
+Models/Frankenstein1.blend
+Models/Frankenstein1.blend1
+Models/Planter.blend
+Models/Planter.blend1
+Models/Planter_growing.mtl
+Models/Planter_growing.obj
+Models/Planter_growing.wom
+Models/Planter_ripe.dae
+Models/Planter_ripe.mtl
+Models/Planter_ripe.obj
+Models/Planter_ripe.wom
+Models/Planter_sprouting.mtl
+Models/Planter_sprouting.obj
+Models/Planter_sprouting.wom
+Models/Planter_unplanted.mtl
+Models/Planter_unplanted.obj
+Models/Planter_unplanted.wom
+Models/Planter_wilted.mtl
+Models/Planter_wilted.obj
+Models/Planter_wilted.wom
+Models/Planter_young.mtl
+Models/Planter_young.obj
+Models/Planter_young.wom
+Models/PlanterwithCoffeeBush.blend
+Models/PlanterwithCoffeeBush.blend1
+Models/PlanterwithCoffeeBush.dae
+Models/PlanterwithCoffeeBush.mtl
+Models/PlanterwithCoffeeBush.obj
+Models/PlanterwithCoffeeBushsprouting.blend
+Models/PlanterwithCoffeeBushsprouting.blend1
+Models/salt.blend
+Models/salt.blend1
+Models/salt.jpg
+Models/textures/albedometal-v2.png
+Models/textures/albedometal-v3.png
+Models/textures/b_ref.dds
+Models/textures/berry.dds
+Models/textures/Planter_ripe.wom
+Models/textures/Tx_comberry_01.dds
+Models/textures/Tx_comberry_02.dds
+Models/textures/Tx_comberry_branch.dds
+Models/textures/Tx_Comberry_leaf.dds
+Models/Tx_comberry_01.dds
+Models/Tx_comberry_02.dds
+Models/Tx_comberry_branch.dds
+Models/Tx_Comberry_leaf.dds

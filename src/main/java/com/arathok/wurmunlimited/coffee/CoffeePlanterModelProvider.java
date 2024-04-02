@@ -10,16 +10,25 @@ public class CoffeePlanterModelProvider implements ModelNameProvider {
 
         if (item.getAuxData()==(byte)0)
             sb.append("dirt");
+        else {
 
-        if (item.getData()>0&&item.getData1()<7)
-            sb.append("growing.");
 
-        if (item.getData()>7)
-            sb.append("ripe.");
+            if (item.getData1() <= 2)
+                sb.append("young.");
 
-        if (item.getData()>8)
-            sb.append("wilted.");
+            if (item.getData1() > 2 && item.getData1() < 5)
+                sb.append("growing.");
 
+            if (item.getData1() >= 5 && item.getData1() <= 7)
+                sb.append("sprouting.");
+
+            if (item.getData1() == 8)
+                sb.append("ripe.");
+
+            if (item.getData1() > 8)
+                sb.append("wilted.");
+
+        }
         return sb.toString();
     }
 }

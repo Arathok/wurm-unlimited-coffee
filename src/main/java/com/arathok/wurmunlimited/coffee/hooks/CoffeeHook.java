@@ -6,6 +6,7 @@ import com.wurmonline.server.behaviours.Methods;
 import com.wurmonline.server.creatures.Creature;
 import com.wurmonline.server.items.Item;
 import com.wurmonline.server.players.Player;
+import com.wurmonline.server.skills.Skill;
 import com.wurmonline.server.villages.Village;
 import com.wurmonline.server.zones.VolaTile;
 import com.wurmonline.server.zones.Zones;
@@ -20,15 +21,14 @@ public class CoffeeHook {
     Methods test;
     public static void insert() {
         ClassPool classPool = HookManager.getInstance().getClassPool();
-        CtClass methods;
-
+        Skill test;
         {
             try {
                 // protected void alterSkill(double advanceMultiplicator, boolean decay, float times, boolean useNewSystem, double skillDivider) {
                 Coffee.logger.log(Level.INFO, "new CoffeeSKillgain");
                 CtClass ctSkill = classPool.get("com.wurmonline.server.skills.Skill");
-                CtMethod ctAlterSkill = ctSkill.getMethod("alterSkill","DZFZD()V");
-                ctAlterSkill.insertBefore("advanceMultiplicator*=com.arathok.wurmunlimited.coffee.hooks.CoffeeHook.checkForCoffee(this.parentId);");
+                CtMethod ctAlterSkill = ctSkill.getMethod("alterSkill","(DZFZD)V");
+                ctAlterSkill.insertBefore("advanceMultiplicator*=com.arathok.wurmunlimited.coffee.hooks.CoffeeHook.checkForCoffee(this.parent.getId());");
 
 
             } catch (NotFoundException e) {
@@ -43,11 +43,12 @@ public class CoffeeHook {
         }
     }
     public static double checkForCoffee(long performerId) {
+
         double advanceMultiplicatorNew =1;
         Player playerToTest = Players.getInstance().getPlayerOrNull(performerId);
         if (playerToTest!=null&&!(playerToTest.getSaveFile().frozenSleep)&&playerToTest.getSpellEffects().getSpellEffect((byte) 101)!=null)
         {
-            advanceMultiplicatorNew=1*(1+(playerToTest.getSpellEffects().getSpellEffect((byte)101).power)/10);
+            advanceMultiplicatorNew=1*(1+ playerToTest.getSpellEffects().getSpellEffect((byte)101).power /100F);
         }
         return advanceMultiplicatorNew;
     }

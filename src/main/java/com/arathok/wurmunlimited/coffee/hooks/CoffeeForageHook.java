@@ -19,7 +19,7 @@ import java.util.logging.Level;
 
 public class CoffeeForageHook {
 
-    public static void insert() {
+    public static void insertForage() {
         ClassPool classPool = HookManager.getInstance().getClassPool();
         CtClass methods;
 
@@ -29,7 +29,7 @@ public class CoffeeForageHook {
                 Coffee.logger.log(Level.INFO, "new CoffeeForagePerformer");
                 CtClass ctForage = classPool.get("com.wurmonline.server.behaviours.Forage");
                 CtMethod ctCheckForCoffee = ctForage.getDeclaredMethod("getRandomForage");
-                ctCheckForCoffee.insertAfter("if($_!=null)com.arathok.wurmunlimited.coffee.hooks.CoffeeForageHook.checkForCoffee($1);");
+                ctCheckForCoffee.insertAfter("if($_!=null)com.arathok.wurmunlimited.coffee.hooks.CoffeeForageHook.checkForCoffee($1.getWurmId());");
 
 
             } catch (NotFoundException e) {
@@ -45,17 +45,17 @@ public class CoffeeForageHook {
     }
     public static void checkForCoffee(long performerId) throws NoSuchTemplateException, FailedException {
         int random = Server.rand.nextInt(Config.chanceToFindCoffeeOneinX);
-        if (random==0)
-        {
-            Player player = Players.getInstance().getPlayerOrNull(performerId);
-            if (player!=null)
-            {
-                player.getCommunicator().sendSafeServerMessage("You also find a coffee bean!");
-                Skill foraging = player.getSkills().getSkillOrLearn(SkillList.FORAGING);
-                float quality = Skill.rollGaussian((float) foraging.getKnowledge(),50F,player.getWurmId(),"quality");
-                Item coffBean = ItemFactory.createItem(CoffeeItem.coffeeBeanId,quality,player.getName());
-                player.getInventory().insertItem(coffBean);
+        if (Config.isForageable) {
+            if (random == 0) {
+                Player player = Players.getInstance().getPlayerOrNull(performerId);
+                if (player != null) {
+                    player.getCommunicator().sendSafeServerMessage("You also find a coffee bean!");
+                    Skill foraging = player.getSkills().getSkillOrLearn(SkillList.FORAGING);
+                    float quality = Math.abs(Skill.rollGaussian((float) foraging.getKnowledge(), 50F, player.getWurmId(), "quality"));
+                    Item coffBean = ItemFactory.createItem(CoffeeItem.coffeeBeanId, quality, player.getName());
+                    player.getInventory().insertItem(coffBean);
 
+                }
             }
         }
     }

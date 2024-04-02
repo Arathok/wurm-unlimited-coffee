@@ -27,7 +27,7 @@ public class CoffeeBehavior implements BehaviourProvider {
         this.harvest = Collections.singletonList(harvestPerformer.actionEntry);
 
         ModActions.registerActionPerformer(acoffeePerformer);
-
+        ModActions.registerActionPerformer(harvestPerformer);
 
     }
 
@@ -41,7 +41,7 @@ public class CoffeeBehavior implements BehaviourProvider {
 
                 return new ArrayList<>(takeaSip);
         }
-        if (!target.isTraded()&&target.getOwnerId()==performer.getWurmId()&&target.getTemplateId()== CoffeeItem.coffeeShrubId&&target.getData1()==7) {
+        if (!target.isTraded()&&target.getLastOwnerId()==performer.getWurmId()&&target.getTemplateId()== CoffeeItem.coffeeShrubId&&target.getAuxData()==1) {
 
             return new ArrayList<>(harvest);
         }
@@ -49,7 +49,7 @@ public class CoffeeBehavior implements BehaviourProvider {
     }
     @Override
     public List<ActionEntry> getBehavioursFor(Creature performer, Item source, Item target) {
-        return getBehavioursFor(performer, source);
+        return getBehavioursFor(performer, target);
     }
 
 }
