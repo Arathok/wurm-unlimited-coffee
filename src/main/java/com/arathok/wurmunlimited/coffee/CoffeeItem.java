@@ -26,11 +26,11 @@ public class CoffeeItem {
                 .itemTypes(new short[]{
 
                         //ItemTypes.ITEM_TYPE_BULK,
-
-                        ItemTypes.ITEM_TYPE_PLANTABLE,
+                        ItemTypes.ITEM_TYPE_FOOD,
+                        ItemTypes.ITEM_TYPE_SEED,
                         ItemTypes.ITEM_TYPE_DECORATION,
                         ItemTypes.ITEM_TYPE_TURNABLE,
-                        ItemTypes.ITEM_TYPE_TILE_ALIGNED,
+                        ItemTypes.ITEM_TYPE_LOWNUTRITION,
                         ItemTypes.ITEM_TYPE_DESTROYABLE,
 
                 })
@@ -81,7 +81,7 @@ public class CoffeeItem {
         if (Config.isPlantable)
         CreationEntryCreator
                 .createAdvancedEntry(SkillList.FARMING, ItemList.nailsIronLarge, ItemList.plank, coffeeShrubId, false,
-        false, 0f, false, true, 0, 40, CreationCategories.MAGIC)
+        false, 0f, false, true, 0, 40, CreationCategories.FOOD)
                 .addRequirement(new CreationRequirement(1, ItemList.nailsIronLarge, 16, true))
                 .addRequirement(new CreationRequirement(1, ItemList.plank, 14, true))
                 .addRequirement(new CreationRequirement(1, ItemList.dirtPile, 1, true));
@@ -134,12 +134,13 @@ public class CoffeeItem {
                         //26, 88, 90, 113, 212
                         //ItemTypes.ITEM_TYPE_BULK,
 
-                        ItemTypes.ITEM_TYPE_PLANTABLE,
+                        ItemTypes.ITEM_TYPE_LOWNUTRITION,
                         ItemTypes.ITEM_TYPE_DECORATION,
                         ItemTypes.ITEM_TYPE_TURNABLE,
                         ItemTypes.ITEM_TYPE_FOOD,
 
                         ItemTypes.ITEM_TYPE_DESTROYABLE,
+
 
                 })
                 .decayTime(Long.MAX_VALUE)
@@ -151,7 +152,7 @@ public class CoffeeItem {
                 .build();
 
         groundCoffeeId = groundCoffee.getTemplateId();
-        CreationEntryCreator.createSimpleEntry(SkillList.MILLING,ItemList.grindstone,coffeeBeanId,groundCoffeeId,true,false,100.0F,false,false,0,30.0,CreationCategories.FOOD);
+        CreationEntryCreator.createSimpleEntry(SkillList.MILLING,coffeeBeanId,ItemList.grindstone,groundCoffeeId,true,false,100.0F,false,false,0,30.0,CreationCategories.FOOD);
 
 
     }
@@ -166,10 +167,11 @@ public class CoffeeItem {
                         //ItemTypes.ITEM_TYPE_BULK,
 
                         ItemTypes.ITEM_TYPE_FOOD,
-                        Item.ITEM_TYPE_LIQUID,
-                        Item.ITEM_TYPE_LIQUID_COOKING,
-                        Item.ITEM_TYPE_DISTILLED,
+                        ItemTypes.ITEM_TYPE_LIQUID,
+                        ItemTypes.ITEM_TYPE_LIQUID_COOKING,
+                        ItemTypes.ITEM_TYPE_DISTILLED,
                         ItemTypes.ITEM_TYPE_BULK,
+
 
                 })
                 .decayTime(Long.MAX_VALUE)
@@ -182,7 +184,7 @@ public class CoffeeItem {
 
         coffeeMixId = coffeeMix.getTemplateId();
 
-        CreationEntryCreator.createSimpleEntry(SkillList.COOKING_BEVERAGES,groundCoffeeId,ItemList.water,coffeeMixId,true,true,0.0f,false,false,0,30.0,CreationCategories.FOOD);
+        CreationEntryCreator.createSimpleEntry(SkillList.COOKING_BEVERAGES,ItemList.water,groundCoffeeId,coffeeMixId,true,true,0.0f,false,false,0,30.0,CreationCategories.FOOD);
 
     }
 

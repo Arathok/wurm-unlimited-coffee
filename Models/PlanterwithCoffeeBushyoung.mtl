@@ -1,0 +1,32 @@
+# Blender 4.0.2 MTL File: 'PlanterwithCoffeeBushyoung.blend'
+# www.blender.org
+
+newmtl Material.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd albedometal-v3.png
+
+newmtl Material.003
+Ns 0.250000
+Ka 1.000000 1.000000 1.000000
+Ks 0.166500 0.166500 0.166500
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 2
+map_Kd Tx_comberry_01.dds
+map_d Tx_comberry_01.dds
+
+newmtl Material.004
+Ns 0.250000
+Ka 1.000000 1.000000 1.000000
+Ks 0.166500 0.166500 0.166500
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 2
+map_Kd Tx_comberry_02.dds
+map_d Tx_comberry_02.dds

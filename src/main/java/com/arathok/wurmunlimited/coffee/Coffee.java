@@ -50,7 +50,7 @@ public class Coffee implements WurmServerMod, Initable, PreInitable, Configurabl
         Config.isForageable=Boolean.parseBoolean(properties.getProperty("isForageable","true"));
         Config.chanceToFindCoffeeOneinX=Integer.parseInt(properties.getProperty("chanceToFindCoffeeOneinX", "1000"));
         Config.tendingDuration=Long.parseLong(properties.getProperty("tendingDuration", "86400000"));
-
+        Config.harvestmultiplicator=Integer.parseInt(properties.getProperty("harvestmultiplicator", "1"));
 
     }
 

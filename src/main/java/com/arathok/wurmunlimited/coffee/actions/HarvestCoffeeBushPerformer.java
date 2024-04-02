@@ -148,9 +148,10 @@ public class HarvestCoffeeBushPerformer implements ActionPerformer {
                             SoundPlayer.playSound("sound.work.foragebotanize", performer, 1.6F);
                             Item coffeeBean = null;
                             int chance = Server.rand.nextInt((int) performer.getSkills().getSkillOrLearn(SkillList.FARMING).getKnowledge()) + 20;
-                            if (chance > 40) {
+                            if (chance > 1) {
                                 try {
                                     coffeeBean = ItemFactory.createItem(CoffeeItem.coffeeBeanId, (Math.min(100, Server.rand.nextInt((int) performer.getSkills().getSkillOrLearn(SkillList.FARMING).getKnowledge()) + 20)), performer.getName());
+                                    for (int i=0; i<Config.harvestmultiplicator;i++)
                                     performer.getInventory().insertItem(coffeeBean);
                                     performer.getCommunicator().sendSafeServerMessage("You manage to find a good coffee bean!");
                                 } catch (FailedException | NoSuchTemplateException e) {
@@ -176,7 +177,8 @@ public class HarvestCoffeeBushPerformer implements ActionPerformer {
                             if (chance > 40) {
                                 try {
                                     coffeeBean = ItemFactory.createItem(CoffeeItem.coffeeBeanId, (Math.min(100, Server.rand.nextInt((int) performer.getSkills().getSkillOrLearn(SkillList.FARMING).getKnowledge()) + 20)), performer.getName());
-                                    performer.getInventory().insertItem(coffeeBean);
+                                    for (int i=0; i<Config.harvestmultiplicator;i++)
+                                        performer.getInventory().insertItem(coffeeBean);
                                     performer.getCommunicator().sendSafeServerMessage("You manage to find a good coffee bean!");
                                 } catch (FailedException | NoSuchTemplateException e) {
                                     throw new RuntimeException(e);
@@ -202,6 +204,8 @@ public class HarvestCoffeeBushPerformer implements ActionPerformer {
                             if (chance > 35) {
                                 try {
                                     coffeeBean = ItemFactory.createItem(CoffeeItem.coffeeBeanId, (Math.min(100, Server.rand.nextInt((int) performer.getSkills().getSkillOrLearn(SkillList.FARMING).getKnowledge()) + 20)), performer.getName());
+                                    for (int i=0; i<Config.harvestmultiplicator;i++)
+                                        performer.getInventory().insertItem(coffeeBean);
                                     performer.getInventory().insertItem(coffeeBean);
                                     performer.getCommunicator().sendSafeServerMessage("You manage to find a good coffee bean!");
                                 } catch (FailedException | NoSuchTemplateException e) {
@@ -243,6 +247,8 @@ public class HarvestCoffeeBushPerformer implements ActionPerformer {
                             if (chance > 40) {
                                 try {
                                     coffeeBean = ItemFactory.createItem(CoffeeItem.coffeeBeanId, (Math.min(100, Server.rand.nextInt((int) performer.getSkills().getSkillOrLearn(SkillList.FARMING).getKnowledge()) + 20)), performer.getName());
+                                    for (int i=0; i<Config.harvestmultiplicator;i++)
+                                        performer.getInventory().insertItem(coffeeBean);
                                     performer.getInventory().insertItem(coffeeBean);
                                     performer.getCommunicator().sendSafeServerMessage("You manage to find a good coffee bean!");
                                 } catch (FailedException | NoSuchTemplateException e) {
