@@ -41,7 +41,7 @@ public class Coffee implements WurmServerMod, Initable, PreInitable, Configurabl
     private ArrayList<Long> toRemove = new ArrayList<>();
 
 
-   static { CtClass.debugDump = "F:/SteamLibrary/steamapps/common/Wurm Unlimited Dedicated Server/mods/debug"; }
+   //static { CtClass.debugDump = "F:/SteamLibrary/steamapps/common/Wurm Unlimited Dedicated Server/mods/debug"; }
 
     @Override
     public void configure(Properties properties) {
