@@ -92,7 +92,7 @@ public class WaterCoffeeBushPerformer implements ActionPerformer {
                 target.setData2(target.getData2()+1); // how many times watered +1
                 target.setExtra1(1);                   // watered
                 source.setWeight(source.getWeightGrams()-1000,true);
-                PlantCoffeeBushPerformer.activeCoffeeShrubs.put(target.getWurmId(),System.currentTimeMillis()+nextTendAt);
+                PlantCoffeeBushPerformer.activeCoffeeShrubs.put(target.getWurmId(),nextTendAt);
                 performer.getCommunicator().sendNormalServerMessage("The plant seems to be happy.");
              }
 
