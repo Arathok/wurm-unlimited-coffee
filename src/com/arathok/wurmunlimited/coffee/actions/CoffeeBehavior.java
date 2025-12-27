@@ -41,7 +41,7 @@ public class CoffeeBehavior implements BehaviourProvider {
 
                 return new ArrayList<>(takeaSip);
         }
-        if (!target.isTraded()&&target.getLastOwnerId()==performer.getWurmId()&&target.getTemplateId()== CoffeeItem.coffeeShrubId&&target.getAuxData()==1) {
+        if (!target.isTraded()&&target.getTemplateId()== CoffeeItem.coffeeShrubId&&target.getAuxData()==1) {
 
             return new ArrayList<>(harvest);
         }
