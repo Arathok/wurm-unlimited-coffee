@@ -52,7 +52,6 @@ public class CoffeeItem {
         coffeeShrub = new ItemTemplateBuilder("arathok.Coffee.Coffeeshrub").name("coffee planter",
                         "coffee Shrub",  "A coffee planter that is suited to grow coffee plants, which bear coffee beans every now and then if watered Daily"
                 )
-
                 .modelName("model.arathok.coffee.planter.")
                 .imageNumber((short) IconConstants.ICON_LARGE_CRATE)
                 .itemTypes(new short[]{
@@ -80,12 +79,12 @@ public class CoffeeItem {
 
         coffeeShrubId = coffeeShrub.getTemplateId();
         if (Config.isPlantable)
-            CreationEntryCreator
-                    .createAdvancedEntry(SkillList.FARMING, ItemList.nailsIronLarge, ItemList.plank, coffeeShrubId, true,
-                            false, 0f, true, true, 0, 40, CreationCategories.FOOD)
-                    .addRequirement(new CreationRequirement(1, ItemList.nailsIronLarge, 16, true))
-                    .addRequirement(new CreationRequirement(2, ItemList.plank, 14, true))
-                    .addRequirement(new CreationRequirement(3, ItemList.dirtPile, 1, true));
+        CreationEntryCreator
+                .createAdvancedEntry(SkillList.FARMING, ItemList.nailsIronLarge, ItemList.plank, coffeeShrubId, false,
+        false, 0f, false, true, 0, 40, CreationCategories.FOOD)
+                .addRequirement(new CreationRequirement(1, ItemList.nailsIronLarge, 16, true))
+                .addRequirement(new CreationRequirement(1, ItemList.plank, 14, true))
+                .addRequirement(new CreationRequirement(1, ItemList.dirtPile, 1, true));
 
     }
 
@@ -136,10 +135,10 @@ public class CoffeeItem {
                         //ItemTypes.ITEM_TYPE_BULK,
 
                         ItemTypes.ITEM_TYPE_LOWNUTRITION,
-
+                        ItemTypes.ITEM_TYPE_DECORATION,
                         ItemTypes.ITEM_TYPE_TURNABLE,
                         ItemTypes.ITEM_TYPE_FOOD,
-                        Config.isBulk? ItemTypes.ITEM_TYPE_BULK:ItemTypes.ITEM_TYPE_NO_IMPROVE,
+
                         ItemTypes.ITEM_TYPE_DESTROYABLE,
 
 

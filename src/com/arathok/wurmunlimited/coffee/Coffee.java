@@ -172,7 +172,7 @@ public class Coffee implements WurmServerMod, Initable, PreInitable, Configurabl
             {
                 PlantCoffeeBushPerformer.activeCoffeeShrubs.remove(oneEntry);
             }
-            coffeePoller = System.currentTimeMillis() + Config.tendingDuration;
+            coffeePoller = System.currentTimeMillis() + 60000L;
         }
 
     }
