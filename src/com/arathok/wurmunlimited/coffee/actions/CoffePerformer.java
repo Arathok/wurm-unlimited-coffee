@@ -76,6 +76,14 @@ public class CoffePerformer implements ActionPerformer {
                     ActionPropagation.NO_ACTION_PERFORMER_PROPAGATION);
         }
 
+        if (source.getWeightGrams()<100)
+        {
+            performer.getCommunicator().sendAlertServerMessage("That amount of coffee wouldn't even wake an ant!");
+            return propagate(action,
+                    ActionPropagation.FINISH_ACTION,
+                    ActionPropagation.NO_SERVER_PROPAGATION,
+                    ActionPropagation.NO_ACTION_PERFORMER_PROPAGATION);
+        }
 
 // EFFECT STUFF GOES HERE
         if (counter ==1.0F)
@@ -103,6 +111,10 @@ public class CoffePerformer implements ActionPerformer {
                 existingPower = existingSpell.getPower();
             Spell toApply = Spells.getEnchantment((byte) 101);
             CreatureEnchantment.doImmediateEffect(toApply.number, 300, Math.min(100,existingPower+20) , performer);
+            if (existingPower>=99)
+            {
+                existingSpell.setTimeleft(300);
+            }
 
             return propagate(action,
                     ActionPropagation.FINISH_ACTION,

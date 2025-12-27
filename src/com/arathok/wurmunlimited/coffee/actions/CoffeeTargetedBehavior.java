@@ -39,11 +39,11 @@ public class CoffeeTargetedBehavior implements BehaviourProvider {
     @Override
     public List<ActionEntry> getBehavioursFor(Creature performer, Item source, Item target) {
 
-        if (!target.isTraded() && target.getLastOwnerId() == performer.getWurmId() && target.getTemplateId() == CoffeeItem.coffeeShrubId && target.getAuxData() == 0) {
+        if (!target.isTraded()  && target.getTemplateId() == CoffeeItem.coffeeShrubId && target.getAuxData() == 0) {
 
             return new ArrayList<>(plant);
         }
-        if (source.getTemplateId()== ItemList.water&&!target.isTraded() && target.getLastOwnerId() == performer.getWurmId() && target.getTemplateId() == CoffeeItem.coffeeShrubId && target.getData1() <= 7 && target.getAuxData() == 1) {
+        if (source.getTemplateId()== ItemList.water&&!target.isTraded()  && target.getTemplateId() == CoffeeItem.coffeeShrubId && target.getData1() <= 7 && target.getAuxData() == 1) {
 
 
                 return new ArrayList<>(water);

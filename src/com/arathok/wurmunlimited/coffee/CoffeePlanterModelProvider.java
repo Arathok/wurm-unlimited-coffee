@@ -6,7 +6,7 @@ import org.gotti.wurmunlimited.modsupport.items.ModelNameProvider;
 public class CoffeePlanterModelProvider implements ModelNameProvider {
     @Override
     public String getModelName(Item item) {
-        StringBuilder sb = new StringBuilder(item.getTemplate().getModelName());
+        StringBuilder sb = new StringBuilder(item.getTemplate().getModelName()); //model.arathok.coffee.planter.
 
         if (item.getAuxData()==(byte)0)
             sb.append("dirt");

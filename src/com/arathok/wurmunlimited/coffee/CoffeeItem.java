@@ -1,75 +1,204 @@
 package com.arathok.wurmunlimited.coffee;
 
-import com.wurmonline.server.items.CreationCategories;
-import com.wurmonline.server.items.CreationEntryCreator;
-import com.wurmonline.server.items.CreationRequirement;
-import com.wurmonline.server.items.ItemTemplate;
-import java.io.IOException;
+import com.wurmonline.server.items.*;
+import com.wurmonline.server.skills.SkillList;
+import com.wurmonline.shared.constants.IconConstants;
 import org.gotti.wurmunlimited.modsupport.ItemTemplateBuilder;
 import org.gotti.wurmunlimited.modsupport.items.ModItems;
 import org.gotti.wurmunlimited.modsupport.items.ModelNameProvider;
 
+import java.io.IOException;
+
 public class CoffeeItem {
-    public static ItemTemplate coffeeShrub;
 
-    public static ItemTemplate coffeeBean;
-
-    public static ItemTemplate coffee;
-
-    public static ItemTemplate groundCoffee;
-
-    public static ItemTemplate coffeeMix;
-
+    public static ItemTemplate coffeeShrub,coffeeBean, coffee, groundCoffee,coffeeMix;
     public static int coffeeShrubId;
-
     public static int coffeeBeanId;
+    public static int coffeeId,groundCoffeeId,coffeeMixId;
 
-    public static int coffeeId;
-
-    public static int groundCoffeeId;
-
-    public static int coffeeMixId;
 
     private static void registerCoffeeBean() throws IOException {
-        coffeeBean = (new ItemTemplateBuilder("arathok.Coffee.Coffeebean")).name("coffee beans", "coffee beans", "A bunch of beans of a coffee shrub originating from Mt. Arathok. The Monks up there brewed it into a coffee to heighten their senses.").modelName("model.resource.cocoabean.").imageNumber((short)518).itemTypes(new short[] {(short) (Config.isBulk ? 146 : 187), 5, 20, 51, 55, 86 }).decayTime(Long.MAX_VALUE).dimensions(1, 1, 1).weightGrams(10).material((byte)45).behaviourType((short)1).primarySkill(10049).difficulty(50.0F).build();
+        coffeeBean = new ItemTemplateBuilder("arathok.Coffee.Coffeebean").name("coffee beans",
+                        "coffee beans",  "A bunch of beans of a coffee shrub originating from Mt. Arathok. The Monks up there brewed it into a coffee to heighten their senses."
+                )
+                .modelName("model.resource.cocoabean.")
+                .imageNumber((short) IconConstants.ICON_FOOD_COCOA_BEAN)
+                .itemTypes(new short[]{
+
+                        Config.isBulk? ItemTypes.ITEM_TYPE_BULK:ItemTypes.ITEM_TYPE_NO_IMPROVE, //ItemTypes.ITEM_TYPE_BULK,
+                        ItemTypes.ITEM_TYPE_FOOD,
+                        ItemTypes.ITEM_TYPE_SEED,
+
+                        ItemTypes.ITEM_TYPE_TURNABLE,
+                        ItemTypes.ITEM_TYPE_LOWNUTRITION,
+                        ItemTypes.ITEM_TYPE_DESTROYABLE,
+
+                })
+                .decayTime(Long.MAX_VALUE)
+                .dimensions(1, 1, 1)
+                .weightGrams(10)
+                .material(Materials.MATERIAL_WOOD_CHERRY)
+                .behaviourType((short) 1)
+                .primarySkill(SkillList.FARMING).difficulty(50) // no hard lock
+                .build();
+
         coffeeBeanId = coffeeBean.getTemplateId();
+
+
+
     }
 
     private static void registerCoffeePlanter() throws IOException {
-        coffeeShrub = (new ItemTemplateBuilder("arathok.Coffee.Coffeeshrub")).name("coffee planter", "coffee Shrub", "A coffee planter that is suited to grow coffee plants, which bear coffee beans every now and then if watered Daily").modelName("model.arathok.coffee.planter.").imageNumber((short)311).itemTypes(new short[] { 199, 52, 51, 195, 86, 48, 255, 31 }).decayTime(Long.MAX_VALUE).dimensions(40, 40, 60).weightGrams(40000).material((byte)45).behaviourType((short)1).primarySkill(10049).difficulty(50.0F).build();
+        coffeeShrub = new ItemTemplateBuilder("arathok.Coffee.Coffeeshrub").name("coffee planter",
+                        "coffee Shrub",  "A coffee planter that is suited to grow coffee plants, which bear coffee beans every now and then if watered Daily"
+                )
+
+                .modelName("model.arathok.coffee.planter.")
+                .imageNumber((short) IconConstants.ICON_LARGE_CRATE)
+                .itemTypes(new short[]{
+
+                        //ItemTypes.ITEM_TYPE_BULK,
+
+                        ItemTypes.ITEM_TYPE_PLANTABLE,
+                        ItemTypes.ITEM_TYPE_DECORATION,
+                        ItemTypes.ITEM_TYPE_TURNABLE,
+                        ItemTypes.ITEM_TYPE_OWNER_MOVEABLE,
+
+                        ItemTypes.ITEM_TYPE_DESTROYABLE,
+                        ItemTypes.ITEM_TYPE_HASDATA,
+                        ItemTypes.ITEM_TYPE_HAS_EXTRA_DATA,
+                        ItemTypes.ITEM_TYPE_NOTAKE,
+
+                })
+                .decayTime(Long.MAX_VALUE)
+                .dimensions(40, 40, 60)
+                .weightGrams(40000)
+                .material(Materials.MATERIAL_WOOD_CHERRY)
+                .behaviourType((short) 1)
+                .primarySkill(SkillList.FARMING).difficulty(50) // no hard lock
+                .build();
+
         coffeeShrubId = coffeeShrub.getTemplateId();
         if (Config.isPlantable)
-            CreationEntryCreator.createAdvancedEntry(10049, 217, 22, coffeeShrubId, true, false, 0.0F, true, true, 0, 40.0D, CreationCategories.FOOD)
+            CreationEntryCreator
+                    .createAdvancedEntry(SkillList.FARMING, ItemList.nailsIronLarge, ItemList.plank, coffeeShrubId, true,
+                            false, 0f, true, true, 0, 40, CreationCategories.FOOD)
+                    .addRequirement(new CreationRequirement(1, ItemList.nailsIronLarge, 16, true))
+                    .addRequirement(new CreationRequirement(2, ItemList.plank, 14, true))
+                    .addRequirement(new CreationRequirement(3, ItemList.dirtPile, 1, true));
 
-                    .addRequirement(new CreationRequirement(1, 217, 16, true))
-                    .addRequirement(new CreationRequirement(2, 22, 14, true))
-                    .addRequirement(new CreationRequirement(3, 26, 1, true));
     }
 
     private static void registerCoffeeCup() throws IOException {
-        coffee = (new ItemTemplateBuilder("arathok.Coffee.Coffee")).name("coffee", "coffee", "A delicious liquid making you go hyperfocussed beyond the power of sleep!").modelName("model.arathok.coffee").imageNumber((short)568).itemTypes(new short[] { 26, 88, 214, 146, 212 }).decayTime(Long.MAX_VALUE).dimensions(1, 1, 1).weightGrams(10).material((byte)45).behaviourType((short)1).primarySkill(10049).difficulty(50.0F).build();
+        coffee = new ItemTemplateBuilder("arathok.Coffee.Coffee").name("coffee",
+                        "coffee",  "A delicious liquid making you go hyperfocussed beyond the power of sleep!"
+                )
+                .modelName("model.arathok.coffee")
+                .imageNumber((short) IconConstants.ICON_LIQUID_GRAVY)
+                .itemTypes(new short[]{
+                        //26, 88, 90, 113, 212
+                        //ItemTypes.ITEM_TYPE_BULK,
+
+
+                        ItemTypes.ITEM_TYPE_LIQUID,
+                        ItemTypes.ITEM_TYPE_LIQUID_COOKING,
+                        ItemTypes.ITEM_TYPE_DISTILLED,
+                        ItemTypes.ITEM_TYPE_BULK,
+                        ItemTypes.ITEM_TYPE_USES_FOOD_STATE,
+
+
+
+                })
+                .decayTime(Long.MAX_VALUE)
+                .dimensions(1, 1, 1)
+                .weightGrams(10)
+                .material(Materials.MATERIAL_WOOD_CHERRY)
+                .behaviourType((short) 1)
+                .primarySkill(SkillList.FARMING).difficulty(50) // no hard lock
+
+
+                .build();
+
         coffeeId = coffee.getTemplateId();
+
+
+
     }
 
     private static void registerCoffeePowder() throws IOException {
-        groundCoffee = (new ItemTemplateBuilder("arathok.Coffee.GroundCoffee")).name("ground coffee", "ground coffee", "A bitter powder which might be brewable into something else").modelName("model.arathok.groundcoffee.").imageNumber((short)518).itemTypes(new short[] { 55, 51, 5, (short) (Config.isBulk ? 146 : 187), 86 }).decayTime(Long.MAX_VALUE).dimensions(1, 1, 1).weightGrams(100).material((byte)0).behaviourType((short)1).primarySkill(10049).difficulty(50.0F).build();
+        groundCoffee = new ItemTemplateBuilder("arathok.Coffee.GroundCoffee").name("ground coffee",
+                        "ground coffee",  "A bitter powder which might be brewable into something else"
+                )
+                .modelName("model.arathok.groundcoffee.")
+                .imageNumber((short) IconConstants.ICON_FOOD_COCOA)
+                .itemTypes(new short[]{
+                        //26, 88, 90, 113, 212
+                        //ItemTypes.ITEM_TYPE_BULK,
+
+                        ItemTypes.ITEM_TYPE_LOWNUTRITION,
+
+                        ItemTypes.ITEM_TYPE_TURNABLE,
+                        ItemTypes.ITEM_TYPE_FOOD,
+                        Config.isBulk? ItemTypes.ITEM_TYPE_BULK:ItemTypes.ITEM_TYPE_NO_IMPROVE,
+                        ItemTypes.ITEM_TYPE_DESTROYABLE,
+
+
+                })
+                .decayTime(Long.MAX_VALUE)
+                .dimensions(1, 1, 1)
+                .weightGrams(100)
+                .material(Materials.MATERIAL_UNDEFINED)
+                .behaviourType((short) 1)
+                .primarySkill(SkillList.FARMING).difficulty(50) // no hard lock
+                .build();
+
         groundCoffeeId = groundCoffee.getTemplateId();
-        CreationEntryCreator.createSimpleEntry(10040, coffeeBeanId, 202, groundCoffeeId, true, false, 100.0F, false, false, 0, 30.0D, CreationCategories.FOOD);
+        CreationEntryCreator.createSimpleEntry(SkillList.MILLING,coffeeBeanId,ItemList.grindstone,groundCoffeeId,true,false,100.0F,false,false,0,30.0,CreationCategories.FOOD);
+
+
+    }
+    private static void registerCoffeeMix() throws IOException {
+        coffeeMix = new ItemTemplateBuilder("arathok.Coffee.CoffeeMix").name("coffee mix",
+                        "coffee mix",  "A mix of water and ground coffee, needs to be passed through a still for the water to take up the effects of the coffee"
+                )
+                .modelName("model.arathok.coffeeMix")
+                .imageNumber((short) IconConstants.ICON_LIQUID_GRAVY)
+                .itemTypes(new short[]{
+                        //26, 88, 90, 113, 212
+                        //ItemTypes.ITEM_TYPE_BULK,
+
+                        ItemTypes.ITEM_TYPE_FOOD,
+                        ItemTypes.ITEM_TYPE_LIQUID,
+                        ItemTypes.ITEM_TYPE_LIQUID_COOKING,
+                        ItemTypes.ITEM_TYPE_DISTILLED,
+                        ItemTypes.ITEM_TYPE_BULK,
+
+
+                })
+                .decayTime(Long.MAX_VALUE)
+                .dimensions(1, 1, 1)
+                .weightGrams(1100)
+                .material(Materials.MATERIAL_UNDEFINED)
+                .behaviourType((short) 1)
+                .primarySkill(SkillList.FARMING).difficulty(50) // no hard lock
+                .build();
+
+        coffeeMixId = coffeeMix.getTemplateId();
+
+        CreationEntryCreator.createSimpleEntry(SkillList.COOKING_BEVERAGES,ItemList.water,groundCoffeeId,coffeeMixId,true,true,0.0f,false,false,0,30.0,CreationCategories.FOOD);
+
     }
 
-    private static void registerCoffeeMix() throws IOException {
-        coffeeMix = (new ItemTemplateBuilder("arathok.Coffee.CoffeeMix")).name("coffee mix", "coffee mix", "A mix of water and ground coffee, needs to be passed through a still for the water to take up the effects of the coffee").modelName("model.arathok.coffeeMix").imageNumber((short)568).itemTypes(new short[] { 5, 26, 88, 214, 146 }).decayTime(Long.MAX_VALUE).dimensions(1, 1, 1).weightGrams(1100).material((byte)0).behaviourType((short)1).primarySkill(10049).difficulty(50.0F).build();
-        coffeeMixId = coffeeMix.getTemplateId();
-        CreationEntryCreator.createSimpleEntry(10083, 128, groundCoffeeId, coffeeMixId, true, true, 0.0F, false, false, 0, 30.0D, CreationCategories.FOOD);
-    }
 
     public static void register() throws IOException {
+
         registerCoffeeBean();
         registerCoffeePlanter();
         registerCoffeeCup();
         registerCoffeePowder();
         registerCoffeeMix();
         ModelNameProvider modelNameProvider = new CoffeePlanterModelProvider();
-        ModItems.addModelNameProvider(coffeeShrubId, modelNameProvider);
+        ModItems.addModelNameProvider(coffeeShrubId,modelNameProvider);
     }
+
 }

@@ -115,6 +115,7 @@ public class HarvestCoffeeBushPerformer implements ActionPerformer {
                         source.setExtra(0);  // no time to harvest
                         source.setData1(0); // not watered
                         source.setAuxData((byte) 0); // no bean
+                        source.setName(source.getTemplate().getName());
                         PlantCoffeeBushPerformer.activeCoffeeShrubs.remove(source.getWurmId()); // remove from list to check
 
 
@@ -131,8 +132,10 @@ public class HarvestCoffeeBushPerformer implements ActionPerformer {
                         source.setExtra(0);  // no time to harvest
                         source.setData1(0); // not watered
                         source.setAuxData((byte) 0); // no bean
+                        source.setName(source.getTemplate().getName());
                         PlantCoffeeBushPerformer.activeCoffeeShrubs.remove(source.getWurmId()); // remove from list to check
                         performer.getCommunicator().sendNormalServerMessage("You noticed you harvested the plant too late. You are not able to get anything from its wilted stalks.");
+
                         return propagate(action,
                                 ActionPropagation.FINISH_ACTION,
                                 ActionPropagation.NO_SERVER_PROPAGATION,

@@ -53,6 +53,7 @@ public class Coffee implements WurmServerMod, Initable, PreInitable, Configurabl
         Config.harvestmultiplicator=Integer.parseInt(properties.getProperty("harvestmultiplicator", "1"));
         Config.isBulk = Boolean.parseBoolean(properties.getProperty("isBulk", "false"));
 
+
     }
 
 
@@ -171,7 +172,7 @@ public class Coffee implements WurmServerMod, Initable, PreInitable, Configurabl
             {
                 PlantCoffeeBushPerformer.activeCoffeeShrubs.remove(oneEntry);
             }
-            coffeePoller = System.currentTimeMillis() + 60000L;
+            coffeePoller = System.currentTimeMillis() + Config.tendingDuration;
         }
 
     }
