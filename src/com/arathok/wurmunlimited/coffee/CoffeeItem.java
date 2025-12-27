@@ -132,7 +132,7 @@ public class CoffeeItem {
                 .imageNumber((short) IconConstants.ICON_FOOD_COCOA)
                 .itemTypes(new short[]{
                         //26, 88, 90, 113, 212
-                        //ItemTypes.ITEM_TYPE_BULK,
+                        Config.isBulk?ItemTypes.ITEM_TYPE_BULK:ItemTypes.ITEM_TYPE_NO_IMPROVE,
 
                         ItemTypes.ITEM_TYPE_LOWNUTRITION,
                         ItemTypes.ITEM_TYPE_DECORATION,
